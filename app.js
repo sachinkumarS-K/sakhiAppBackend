@@ -9,15 +9,15 @@ import morgan from "morgan";
 
 const app = express();
 
+ app.use(
+   cors({
+     origin: "https://sakhi-app-frontend.vercel.app",
+     methods: "GET,POST,PUT,DELETE",
+     credentials: true,
+   })
+ );
 
 
-app.use(
-  cors({
-    origin: "https://sakhiappbackend.onrender.com",
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true,
-  })
-);
 app.options("*", cors());
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
