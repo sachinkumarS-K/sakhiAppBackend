@@ -6,11 +6,13 @@ import {
   forgotPassword,
   loginUser,
   logoutUser,
-  registerUser,resetPassword
+  registerUser,resetPassword,
+  sendEmail
 } from "../controller/userController.js";
 
 
 import { auth } from "../middleware/authMiddleware.js";
+import { sendMessage } from "../controller/messageController.js";
 
 
 const router = express.Router();
@@ -23,25 +25,7 @@ router.route("/").get(auth, allUsers);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
 
-const accountSid = process.env.TWILO_ACCOUNT_SID;
-const authToken = process.env.TWILO_AUTH_TOKEN;
-const client = twilio(accountSid, authToken);
-
-const whatsappNumber = "whatsapp:+14155238886"; // Twilio Sandbox Number
-
-router.post("/send-message", async (req, res) => {
-  const { phone, message } = req.body;
-  try {
-    await client.messages.create({
-      from: whatsappNumber,
-      to: `whatsapp:${phone}`,
-      body: message,
-    });
-
-    res.json({ success: true, message: "Message sent successfully!" });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
+router.post("/send-message", sendMessage);
+router.post("/sendEmail" ,sendEmail )
 
 export default router;

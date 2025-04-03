@@ -11,7 +11,10 @@ const app = express();
 
  app.use(
    cors({
-     origin: "https://sakhi-app-frontend.vercel.app",
+     origin: [
+       "https://sakhi-app-frontend.vercel.app",
+       "http://localhost:5173",
+     ],
      methods: "GET,POST,PUT,DELETE",
      credentials: true,
    })
@@ -25,6 +28,8 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 dbConnect();
+
+
 
 app.use("/api/v1/user", userRoutes);
 

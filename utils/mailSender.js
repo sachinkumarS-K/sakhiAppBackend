@@ -16,14 +16,13 @@ const mailSender = async (email, title, body) => {
     });
 
     let info = await transporter.sendMail({
-      from: `"Sachin Kumar || Developer" <${MAIL_USER}>`,
+      from: `"Women Support Team" <${MAIL_USER}>`,
       to: email,
       subject: title,
       html: body,
-      text: body.replace(/<[^>]+>/g, ""), // Strip HTML tags for text fallback
+      text: body.replace(/<[^>]+>/g, ""),
     });
 
-    console.log("Email sent:", info.messageId);
   } catch (error) {
     console.error("Error sending email:", error);
   }
