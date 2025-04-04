@@ -1,12 +1,11 @@
 import "dotenv/config";
 import twilio from "twilio";
-import { accountSid, authToken, twilioNumber } from "../utils/constant.js";
 
-// const accountSid = "AC3a1bb9140977e5536864783373bf7aea";
-// const authToken = "fbfb3d6dee00173b512b2439fe03265f";
-// const twilioNumber = "+12513124829";
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const twilioNumber = process.env.TWILIO_PHONE_NUMBER;
 
-// console.log(accountSid , authToken,twilioNumber)
+console.log(accountSid , authToken,twilioNumber)
 if (!accountSid || !authToken) {
   console.error(" Twilio credentials are missing!");
   // process.exit(1);
