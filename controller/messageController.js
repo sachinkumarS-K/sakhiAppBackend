@@ -6,12 +6,16 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioNumber = process.env.TWILIO_PHONE_NUMBER;
 
 if (!accountSid || !authToken) {
+
   console.error(" Twilio credentials are missing!");
   process.exit(1);
 }
 
 
-const client = twilio(accountSid, authToken);
+const client = twilio(
+    accountSid.trim(),
+ authToken.trim()
+);
 
 const sendMessage = async (req, res) => {
 
