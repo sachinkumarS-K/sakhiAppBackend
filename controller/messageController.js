@@ -5,10 +5,9 @@ const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioNumber = process.env.TWILIO_PHONE_NUMBER;
 
-console.log(accountSid , authToken,twilioNumber)
 if (!accountSid || !authToken) {
   console.error(" Twilio credentials are missing!");
-  // process.exit(1);
+  process.exit(1);
 }
 
 

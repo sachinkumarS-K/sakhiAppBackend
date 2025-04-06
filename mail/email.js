@@ -1,9 +1,9 @@
-export const resetPasswordFormat = (name, email, url) => {
+export const resetPasswordFormat = (name, email, otp) => {
   return `<!DOCTYPE html>
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>Password Update Confirmation</title>
+        <title>Password Reset OTP</title>
         <style>
             body {
                 background-color: #ffffff;
@@ -14,74 +14,63 @@ export const resetPasswordFormat = (name, email, url) => {
                 margin: 0;
                 padding: 0;
             }
-    
+
             .container {
                 max-width: 600px;
                 margin: 0 auto;
                 padding: 20px;
                 text-align: center;
             }
-    
+
             .message {
-                font-size: 18px;
+                font-size: 20px;
                 font-weight: bold;
                 margin-bottom: 20px;
             }
-    
+
             .body {
                 font-size: 16px;
                 margin-bottom: 20px;
             }
-    
+
+            .otp-box {
+                display: inline-block;
+                background-color: #f5f5f5;
+                padding: 15px 30px;
+                border-radius: 8px;
+                font-size: 24px;
+                font-weight: bold;
+                letter-spacing: 6px;
+                margin-top: 10px;
+            }
+
             .support {
                 font-size: 14px;
                 color: #999999;
                 margin-top: 20px;
             }
-    
+
             .highlight {
                 font-weight: bold;
             }
-
-            /* Fixing button styling */
-            .button {
-                background: #FF4742;
-                border: none;
-                border-radius: 6px;
-                padding: 12px 20px;
-                font-size: 16px;
-                font-weight: bold;
-                cursor: pointer;
-                display: inline-block;
-                margin-top: 10px;
-            }
-
-            .button a {
-                color: white;
-                text-decoration: none;
-                font-family: Arial, sans-serif;
-            }
-
-            .button:hover {
-                background: #e03d36;
-            }
         </style>
     </head>
-    
+
     <body>
         <div class="container">
-            <div class="message">Password Reset Request</div>
+            <div class="message">Password Reset OTP</div>
             <div class="body">
                 <p>Hey <span class="highlight">${name}</span>,</p>
                 <p>You requested to reset the password for your account: <span class="highlight">${email}</span>.</p>
-                <p>Click the button below to reset your password:</p>
+                <p>Use the OTP below to reset your password:</p>
                 
-                <a class="button" href="${url}">Reset Password</a>
-                
-                <p>If you did not request this change, please ignore this email or contact us immediately.</p>
+                <div class="otp-box">${otp}</div>
+
+                <p>This OTP is valid for a limited time. Do not share it with anyone.</p>
+                <p>If you didn’t request a password reset, you can safely ignore this email.</p>
             </div>
             <div class="support">
-                If you have any questions, feel free to reach out. We are here to help!
+                Need help? Contact our support team.
             </div>
         </div>
     </body>

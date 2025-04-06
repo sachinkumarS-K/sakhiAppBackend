@@ -171,18 +171,17 @@ const forgotPassword = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    const resetToken = crypto.randomBytes(32).toString("hex");
+    const resetToken = Math.floor(1000 + Math.random() * 9000);
 
-    user.resetPasswordToken = resetToken;
-    user.resetPasswordExpires = Date.now() + 3600000;
+    user.otp = resetToken;
+
     await user.save();
 
-    const resetURL = `http://localhost:8000/api/v1/user/reset-password?token=${resetToken}`;
 
     await mailSender(
       user.email,
-      "Password Reset",
-      resetPasswordFormat(user.name, user.email, resetURL)
+      "Password Reset OTP",
+      resetPasswordFormat(user.name, user.email, resetToken)
     );
 
     res.status(200).json({ message: "Password reset email sent" });
@@ -191,26 +190,54 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+const verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!email || !otp) {
+      return res.status(400).json({ message: "Email and OTP are required" });
+    }
+
+    const user = await User.findOne({ email });
+
+    if (!user || user.otp !== otp ) {
+      return res.status(400).json({ message: "Invalid or expired OTP" });
+    }
+
+    res.status(200).json({ sucess : true , message: "OTP verified successfully" });
+  } catch (error) {
+    console.error("OTP Verification Error:", error);
+    res.status(500).json({sucess : false, message: "Server error", error: error.message });
+  }
+};
+
 const resetPassword = async (req, res) => {
   try {
-    const { token, newPassword } = req.body;
+    const { email, password } = req.body;
 
-    const user = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() }, // Check expiry
-    });
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and new password are required" });
+    }
 
-    if (!user)
-      return res.status(400).json({ message: "Invalid or expired token" });
+    const user = await User.findOne({ email });
 
-    user.password = newPassword;
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
+
+    user.password = password;
+
+    user.otp = undefined;
+
+
     await user.save();
 
     res.status(200).json({ message: "Password reset successful" });
   } catch (error) {
+    console.error("Reset Password Error:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
@@ -236,6 +263,7 @@ export {
   allUsers,
   logoutUser,
   forgotPassword,
-  resetPassword,
+resetPassword,
   sendEmail,
+  verifyOtp,
 };

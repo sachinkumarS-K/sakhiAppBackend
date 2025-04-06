@@ -1,13 +1,15 @@
 import express from "express";
 import "dotenv/config.js";
-import twilio from "twilio";
+
 import {
   allUsers,
   forgotPassword,
   loginUser,
   logoutUser,
-  registerUser,resetPassword,
-  sendEmail
+  registerUser,
+  resetPassword,
+  sendEmail,
+  verifyOtp
 } from "../controller/userController.js";
 
 
@@ -23,6 +25,7 @@ router.get("/logout",  logoutUser);
 router.route("/").get(auth, allUsers);
 
 router.post("/forgot-password", forgotPassword);
+router.post("/verify-otp", verifyOtp);
 router.post("/reset-password", resetPassword);
 
 router.post("/send-message", sendMessage);
