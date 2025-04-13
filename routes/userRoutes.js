@@ -2,7 +2,7 @@ import express from "express";
 import "dotenv/config.js";
 
 import {
-  allUsers,
+
   forgotPassword,
   loginUser,
   logoutUser,
@@ -22,7 +22,7 @@ const router = express.Router();
 router.post("/login", loginUser);
 router.post("/register",  registerUser);
 router.get("/logout",  logoutUser);
-router.route("/").get(auth, allUsers);
+
 
 router.post("/forgot-password", forgotPassword);
 router.post("/verify-otp", verifyOtp);

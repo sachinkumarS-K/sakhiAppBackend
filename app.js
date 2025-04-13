@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("*", (req, res) => {
-  res.send("route not found");
+  res.send("route not founds");
 });
 
 export default app;

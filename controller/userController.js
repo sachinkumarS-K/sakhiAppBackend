@@ -1,4 +1,3 @@
-import crypto from "crypto"
 import { resetPasswordFormat } from "../mail/email.js";
 import User from "../models/userModel.js";
 
@@ -119,34 +118,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-const allUsers = async (req, res) => {
-  try {
-    const searchKeyword = req.query.search;
 
-    if (!searchKeyword) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Search keyword is required" });
-    }
-    const query = {
-      $and: [
-        {
-          $or: [
-            { name: { $regex: searchKeyword, $options: "i" } },
-            { email: { $regex: searchKeyword, $options: "i" } },
-          ],
-        },
-        { _id: { $ne: req.user.id } },
-      ],
-    };
-
-    const users = await User.find(query);
-    res.status(200).json({ success: true, data: users });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};
 
 const logoutUser = async (req, res) => {
   return res
@@ -260,7 +232,7 @@ const sendEmail = async (req, res) => {
 export {
   registerUser,
   loginUser,
-  allUsers,
+
   logoutUser,
   forgotPassword,
 resetPassword,
